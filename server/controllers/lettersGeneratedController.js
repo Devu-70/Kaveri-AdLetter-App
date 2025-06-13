@@ -66,9 +66,42 @@ const getLettersByKaveriId = async (req, res) => {
   }
 };
 
+// Update 'authorized' field of a letter by ID
+const updateAuthorizationStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { authorized } = req.body;
+
+    // Validate 'authorized' value
+    if (typeof authorized !== 'boolean') {
+      return res.status(400).json({ message: "'authorized' must be a boolean value" });
+    }
+
+    const updatedLetter = await LettersGenerated.findByIdAndUpdate(
+      id,
+      { authorized },
+      { new: true }
+    );
+
+    if (!updatedLetter) {
+      return res.status(404).json({ message: 'Letter not found with this ID' });
+    }
+
+    res.status(200).json({
+      message: `'authorized' status updated successfully`,
+      letter: updatedLetter
+    });
+  } catch (error) {
+    console.error('Error updating authorization status:', error.message);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 
 module.exports = {
   createLetter,
   getAllLetters,
-  getLettersByKaveriId
+  getLettersByKaveriId,
+  updateAuthorizationStatus
 };
