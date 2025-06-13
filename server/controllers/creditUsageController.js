@@ -139,10 +139,28 @@ const getCreditLogs = async (req, res) => {
   }
 };
 
+const getAllCredits = async (req, res) => {
+  try {
+    // Get all user credit summaries
+    const allCredits = await UserCredits.find().sort({ updatedAt: -1 });
+
+    // Get all logs (you can paginate if needed)
+    const allLogs = await CreditLog.find().sort({ addedAt: -1 });
+
+    res.status(200).json({
+      users: allCredits,
+      logs: allLogs
+    });
+  } catch (error) {
+    console.error('Error fetching all credits:', error.message);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 module.exports = {
   addTotalCredits,
   addUsedCredits,
   getCurrentCredits,
-  getCreditLogs
+  getCreditLogs,
+  getAllCredits
 };
