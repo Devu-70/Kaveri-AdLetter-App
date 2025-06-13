@@ -29,6 +29,10 @@ const lettersGeneratedSchema = new mongoose.Schema({
   consultancy: {
     type: String,
     required: true,
+  },
+  authorized: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
