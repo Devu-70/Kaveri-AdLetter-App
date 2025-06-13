@@ -9,7 +9,8 @@ const userSchema = new mongoose.Schema({
   verificationStatus: { type: Boolean, default: false },
   kaveriId: { type: String, unique: true },
   password: { type: String, required: true },
-  role: { type: String, default: 'agent' }
+  role: { type: String, default: 'agent' },
+  isSuspended: { type: Boolean, default: false } 
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);
